@@ -6,8 +6,7 @@
     {
       "name": "N000002.N000003",
       "type": "INDEX",
-      "ddl": "CREATE INDEX N000003 ON N000002.N000001(V1 DESC) INCLUDE (V2)",
-      "children": []
+      "ddl": "CREATE INDEX N000003 ON N000002.N000001(V1 DESC) INCLUDE (V2)"
     },
     {
       "name": "N000002.N000004",
@@ -17,8 +16,7 @@
         {
           "name": "N000002.N000005",
           "type": "INDEX",
-          "ddl": "CREATE INDEX N000005 ON N000002.N000004",
-          "children": []
+          "ddl": "CREATE INDEX N000005 ON N000002.N000004"
         }]
     }]
 }
