@@ -488,15 +488,15 @@ display:none;
 }
 
 .nodeIsTable {
-  fill: blue
+  fill: #4287F5
 }
 
 .nodeIsView {
-  fill: green
+  fill: #0E8C7F
 }
 
 .nodeIsIndex {
-  fill: yellow
+  fill: #1399c6
 }
 
 .nodeDoesNotHaveChildren {
@@ -544,7 +544,7 @@ text {
 }
 
 .node-group .emp-name {
-  fill: #962828;
+  fill: white;
   font-size: 12px;
   font-weight: 600
 }
@@ -561,7 +561,7 @@ text {
 
 .node-group .emp-count,
 .node-group .emp-count-icon {
-  fill: #91a4a5;
+  fill: white;
   font-size: 12px;
 }
   </style>
@@ -621,7 +621,6 @@ text {
 <script >
       var params = {
   selector: "#svgChart",
-  //dataLoadUrl: "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/redesignedChartLongData.json",
   dataLoadUrl: "https://raw.githubusercontent.com/tkhurana/schema-tree-visualizer/master/examples/tree1.json",
   chartWidth: window.innerWidth-40,
   chartHeight: window.innerHeight - 40,
@@ -663,7 +662,7 @@ function drawOrganizationChart(params) {
     minMaxZoomProportions: [0.05, 3],
     linkLineSize: 180,
     collapsibleFontSize: '10px',
-    userIcon: '\uf007',
+    userIcon: '\uf1c0',
     nodeStroke: "#ccc",
     nodeStrokeWidth: '1px'
   }
@@ -695,6 +694,12 @@ function drawOrganizationChart(params) {
     .call(zoomBehaviours)
     .append("g")
     .attr("transform", "translate(" + attrs.width / 2 + "," + 20 + ")");
+
+  // Add legend
+  /*svg.append("circle").attr("cx",200).attr("cy",130).attr("r", 6).style("fill", "#69b3a2")
+svg.append("circle").attr("cx",200).attr("cy",160).attr("r", 6).style("fill", "#404080")
+svg.append("text").attr("x", 220).attr("y", 130).text("variable A").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 220).attr("y", 160).text("variable B").style("font-size", "15px").attr("alignment-baseline","middle")*/
 
   //necessary so that zoom knows where to zoom and unzoom from
   zoomBehaviours.translate([dynamic.rootNodeLeftMargin, attrs.rootNodeTopMargin]);
