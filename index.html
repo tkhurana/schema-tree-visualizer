@@ -487,6 +487,18 @@ display:none;
   fill: white;
 }
 
+.nodeIsTable {
+  fill: blue
+}
+
+.nodeIsView {
+  fill: green
+}
+
+.nodeIsIndex {
+  fill: yellow
+}
+
 .nodeDoesNotHaveChildren {
   fill: white;
 }
@@ -602,11 +614,11 @@ text {
     </div>
   </div>
   <div id="svgChart"></div>
-  </div>
+</div>
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
 
-  <script >
+<script >
       var params = {
   selector: "#svgChart",
   //dataLoadUrl: "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/redesignedChartLongData.json",
@@ -751,8 +763,16 @@ function drawOrganizationChart(params) {
     })
       .attr("class", function(d) {
         var res = "";
-        if (d.isLoggedUser) res += 'nodeRepresentsCurrentUser ';
-        res += d._children || d.children ? "nodeHasChildren" : "nodeDoesNotHaveChildren";
+        if (d.type === "TABLE"){
+          res += "nodeIsTable";
+        } else if (d.type === "VIEW"){
+          res += "nodeIsView";
+        } else if (d.type === "INDEX"){
+          res += "nodeIsIndex";
+        } else {
+          res += d._children || d.children ? "nodeHasChildren" :
+          "nodeDoesNotHaveChildren";
+        }
         return res;
       });
 
@@ -961,6 +981,58 @@ function drawOrganizationChart(params) {
       zoomBehaviours.translate([new_x, new_y]);
       zoomBehaviours.scale(1);
     }
+
+    function tooltipContent(item) {
+
+      var strVar = "";
+
+      strVar += "<div class=\"customTooltip\">";
+      strVar += "<p>" + item.ddl + "</p>"
+      strVar += "<\/div>";
+      strVar += "";
+
+      return strVar;
+
+    }
+
+    function tooltipHoverHandler(d) {
+
+      var content = tooltipContent(d);
+      tooltip.html(content);
+
+      tooltip.transition()
+        .duration(200).style("opacity", "1").style('display', 'block');
+      d3.select(this).attr('cursor', 'pointer').attr("stroke-width", 50);
+
+      var y = d3.event.pageY;
+      var x = d3.event.pageX;
+
+      tooltip.style('top', y - 100 + 'px')
+        .style('left', x - 150 + 'px');
+    }
+
+    /*function tooltipOutHandler() {
+      tooltip.transition()
+        .duration(200)
+        .style('opacity', '0').style('display', 'none');
+      d3.select(this).attr("stroke-width", 5);
+
+    }*/
+
+    nodeGroup.on('click', tooltipHoverHandler);
+
+    //nodeGroup.on('dblclick', tooltipOutHandler);
+
+    function equalToEventTarget() {
+      return this == d3.event.target;
+    }
+
+    d3.select("body").on("click", function() {
+      var outside = tooltip.filter(equalToEventTarget).empty();
+      if (outside) {
+        tooltip.style('opacity', '0').style('display', 'none');
+      }
+    });
   }
 
   // Toggle children on click.
